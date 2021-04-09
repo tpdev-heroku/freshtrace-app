@@ -18,7 +18,7 @@
 <div class="container h-9 extra-margin-top">
     <div class="row mb-2">
         <div class="col">
-            <h5 class="font-weight-light">Select an organization</h5>
+            <h5 class="font-weight-light">My organizations</h5>
         </div>
     </div>
     <div class="row">
@@ -26,16 +26,14 @@
             <div class="shadow-sm donors-list container-dynamic-height">
                 <div *ngFor="let ngo of ngolist; let i = index" [class]="selectedNGO.id===ngo.id?'active':''" (click)="onNGOSelect(ngo)">
                     <div class="mr-3"><img src={{ngo.ngo_icon_url}} class="img-fluid">
-                        <app-star-rating class="text-center" class.disabled [rating]='ngo.ngo_rating' [itemId]='ngo.id+ngo.ngo_rating'></app-star-rating>
+                  <!--       <app-star-rating class="text-center" class.disabled [rating]='ngo.ngo_rating' [itemId]='ngo.id+ngo.ngo_rating'></app-star-rating> -->
                     </div>
                     <div class="text-center mt-2">
                     </div>
                     <div>
                         <h5 class="m-0 font-weight-normal">{{ngo.ngo_name}}</h5>
-                        <p class="m-0 mt-1">Sales: {{ngo.ngo_donations | currency:'USD':'symbol':'1.2-2'}}
-                            USD</p>
-                        <p class="m-0 mt-1">My purchases: {{ngo.ngo_user_donations | currency:'USD':'symbol':'1.2-2'}}
-                            USD</p>
+                        <p class="m-0 mt-1">Sales: {{ngo.ngo_donations}}</p>
+                        <p class="m-0 mt-1">My purchases: {{ngo.ngo_user_donations}}</p>
                     </div>
                 </div>
             </div>
@@ -48,8 +46,8 @@
                         <div class="d-flex flex-column align-items-center mr-3">
                             <img src={{selectedNGO.ngo_icon_url}} class="img-fluid wdth-150">
                             <div class="text-center mt-2">
-                                <app-star-rating class.disabled [rating]='selectedNGO.ngo_rating' [itemId]='selectedNGO.ngo_rating+selectedNGO.id'
-                                    data-toggle="modal" data-target="#rating"></app-star-rating>
+                             <!--    <app-star-rating class.disabled [rating]='selectedNGO.ngo_rating' [itemId]='selectedNGO.ngo_rating+selectedNGO.id'
+                                    data-toggle="modal" data-target="#rating"></app-star-rating> -->
                             </div>
                         </div>
                         <div>
@@ -64,28 +62,31 @@
                             <ul class="d-inline-flex list-unstyled border rounded">
                                 
                                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2 border-left border-right bg-gray-200">
-                                    <span>Total Purchases</span><span> <a href="#" data-toggle="modal" data-target="#funds-utilized">
-                                            {{selectedNGO.ngo_fund_utilized | currency:'USD':'symbol':'1.2-2'}}</a></span>
-                                </li>
-                                <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2 bg-light">
-                                    <span>My purchases</span><span>{{selectedNGO.ngo_user_donations |
-                                        currency:'USD':'symbol':'1.2-2'}}</span>
+                                    <span>Total Sales</span><span> <a href="#" data-toggle="modal" data-target="#funds-utilized">
+                                            {{selectedNGO.ngo_fund_utilized}}</a></span>
+                                </li><li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2 bg-light">
+                                    <span>Customers</span><span>100</span>
                                 </li>
                             </ul>
+                              
+                           
                         </div>
                         <div>
                             <ul class="d-inline-flex list-unstyled border rounded">
                                <!--  <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2">
                                     <span>Total Projects</span><span><strong>{{selectedNGO.ngo_projects}}</strong></span>
                                 </li> -->
+
                                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2">
-                                    <span>Total Sales</span><span><strong>{{selectedNGO.ngo_donations |
-                                            currency:'USD':'symbol':'1.2-2'}}</strong></span>
+                                    <span>Total Purchases</span><span><strong><a href="#" data-toggle="modal" data-target="#donors">{{selectedNGO.ngo_donations}}</a></strong></span>
                                 </li>
                                 <li class="d-flex flex-column justify-content-center border-left align-items-center p-1 text-nowrap pl-2 pr-2">
-                                    <span>Customers</span><span><a href="#" data-toggle="modal" data-target="#donors">{{selectedNGO.ngo_Donors}}</a></span>
+                                    <span>Suppliers</span><span>{{selectedNGO.ngo_Donors}}</span>
                                 </li>
-                            </ul>
+                                <li class="d-flex flex-column justify-content-center border-left align-items-center p-1 text-nowrap pl-2 pr-2">
+                                    <span>My purchases</span><span>{{selectedNGO.ngo_user_donations}}</span>
+                                </li> 
+                              </ul>   
                         </div>
                     </div>
                 </div>
@@ -110,7 +111,7 @@
                                             required</div>
                                     </div>
                                     <a class="btn btn-warning ml-2 text-white" (click)='onDonate()' role="button">
-                                        Donate<i *ngIf="loading" class='fa fa-circle-o-notch fa-spin ml-2 '> </i>
+                                        Create PO<i *ngIf="loading" class='fa fa-circle-o-notch fa-spin ml-2 '> </i>
                                     </a>
                                 </div>
                             </form>
@@ -127,30 +128,34 @@
 
 <div class="modal fade" role="dialog" tabindex="-1" id="funds-utilized">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 800px;">
             <div class="modal-header pb-2">
-                <h4 class="modal-title">Purchases</h4>
+                <h4 class="modal-title">Sales</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body p-0">
-                <table class="table w-100 tbl-funds-utilized table-sm table-borderless table-striped">
+                <table class="table w-200 tbl-funds-utilized table-sm table-borderless table-striped">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th class="font-weight-normal pl-4">#</th>
-                            <th class="font-weight-normal">Item name</th>
-                            <th class="text-right font-weight-normal pr-4">Amount</th>
+                            <th class="font-weight-normal pl-4">Sales#</th>
+                            <th class="font-weight-normal">PO#</th>
+                            <th class="font-weight-normal">Pallet</th>
+                            <th class="font-weight-normal">Customer</th>
+                            <th class="font-weight-normal">Product</th>
+                            <th class="text-right font-weight-normal pr-4">Quantity</th>
                         </tr>
                     </thead>
                     <tbody class="overflow-y-auto max-height-200">
                         <tr *ngFor="let spendDetails of selectedNGO.ngo_spend_details; let i = index">
                             <td class="pl-4">{{i+1}}</td>
+                            <th class="font-weight-normal">PO-0001</th>
+                            <th class="font-weight-normal">PAL-0001</th>
+                            <th class="font-weight-normal">Customer name</th>
                             <td>{{spendDetails.spendDescription}}</td>
                             <td class="text-right pr-4" data-dismiss="modal" data-toggle="modal" (click)='renderGraph(spendDetails.spendId,spendDetails.spendAmount)'
-                                data-target="#contributionChart"><a href='#'>{{spendDetails.spendAmount
-                                    |
-                                    currency:'USD':'symbol':'1.2-2'}}</a>
+                                data-target="#contributionChart"><a href='#'>{{spendDetails.spendAmount}}</a>
                             </td>
                         </tr>
                     </tbody>
@@ -187,7 +192,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
-                <h4 class="modal-title">Customer list</h4>
+                <h4 class="modal-title">Supplier list</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -197,17 +202,20 @@
                     <table class="table m-0">
                         <thead class="bg-dark text-white">
                             <tr>
-                                <th class="font-weight-normal pl-4">#</th>
-                                <th class="font-weight-normal">Customer name</th>
-                                <th class="text-right font-weight-normal  pr-4">Amount</th>
+                                <th class="font-weight-normal pl-4">PO#</th>
+                                <th class="font-weight-normal pl-4">Pallet#</th>
+                                <th class="font-weight-normal">Supplier name</th>
+                                <th class="font-weight-normal">Product</th>
+                                <th class="text-right font-weight-normal  pr-4">Quantity</th>
                             </tr>
                         </thead>
                         <tbody class="overflow-y-auto max-height-200">
                             <tr *ngFor="let ngo of getNgoDonorsAmountKeys(); let i = index">
                                 <td class="pl-4">{{i+1}}</td>
+                                <td>PAL-001</td>
                                 <td>{{ngo}}</td>
-                                <td class="text-right pr-4">{{selectedNGO.ngo_donor_details.get(ngo) |
-                                    currency:'USD':'symbol':'1.2-2'}}</td>
+                                <td>Kiwis</td>
+                                <td class="text-right pr-4">{{selectedNGO.ngo_donor_details.get(ngo)}}</td>
                             </tr>
                         </tbody>
                     </table>
